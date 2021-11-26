@@ -1,3 +1,5 @@
 import start from './start';
 
-start();
+(async () => {
+  await start();
+})();

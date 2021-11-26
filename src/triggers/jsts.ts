@@ -1,13 +1,8 @@
+import { JSTS_TRIGGERS } from 'config';
 import { readdirSync } from 'fs';
 
-const TRIGGERS: Record<string, boolean> = {
-  'package.json': true,
-  'package-lock.json': true,
-  'tsconfig.json': true,
-};
-
-const triggerJSProject = (rootPath: string): Trigger | null => {
-  if (readdirSync(rootPath).some((fileName: string) => TRIGGERS[fileName])) return Trigger.JSTS;
+const triggerJSProject = (rootPath: string): ProjectStack | null => {
+  if (readdirSync(rootPath).some((fileName: string) => JSTS_TRIGGERS[fileName])) return ProjectStack.JSTS;
   return null;
 }
 

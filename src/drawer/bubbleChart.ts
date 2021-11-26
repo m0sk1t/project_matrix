@@ -3,9 +3,9 @@ const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 
 const randomColor = () => `#${Math.floor(Math.random() * 0xFFFFFF).toString(16)}`;
 
-const width = 1000; //px
-const height = 1000; //px
-const backgroundColour = 'white'; // Uses https://www.w3schools.com/tags/canvas_fillstyle.asp
+const width = 1000;
+const height = 1000;
+const backgroundColour = 'white';
 const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, backgroundColour});
 
 const prepareData = (data: any[]) => {

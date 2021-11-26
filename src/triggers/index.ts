@@ -12,6 +12,6 @@ const TRIGGERS = [
 ];
 
 const runTriggers = () =>
-  TRIGGERS.map((trigger) =>  trigger(rootPath)).filter(Boolean).pop();
+  TRIGGERS.map((trigger) => trigger(rootPath)).filter(Boolean).pop();
 
 export default runTriggers;

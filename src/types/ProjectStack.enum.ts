@@ -1,4 +1,4 @@
-enum Trigger {
+enum ProjectStack {
   JSTS = 'jsts',
   Python = 'python',
   CSharp = 'c#',

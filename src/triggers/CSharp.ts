@@ -16,6 +16,4 @@ const triggerCSharpProject = (rootPath: string): ProjectStack | null => {
     return null;
 }
 
-
-
 export default triggerCSharpProject;

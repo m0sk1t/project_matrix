@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import { getImportsLibrary } from './helpers/jstx.helper'
+import { getFileImports, libraryEquivalence } from './helpers/jstx.helper'
 import { ILibrary } from './interface/jstx.interface'
 import { JSTX_DETECTOR_FILES } from './types/jstx.enum'
 
@@ -22,37 +22,14 @@ const JSTSDetector = (rootPath: string): Array<ILibrary> | null => {
                 Object.keys(result.dependencies).forEach(data => library.push(data))
             }
 
-            glob('*/**/*.{ts,js,jsx,tsx}', { cwd: rootDirectory }, (error: Error, filesDirectory: Array<String>) => {
+            glob('*/**/*.{ts,js,jsx,tsx}', { cwd: rootDirectory }, (error: Error, filesDirectory: Array<string>) => {
                 try {
                     if (error) throw error
 
-                    const ArrayImportsFiles: Array<string> = []
-                    filesDirectory.forEach(fileDirectory => {
-                        const fileArray = readFileSync(rootDirectory.join(fileDirectory)).toString().split("\n")
-                        const filteredImportsArray: string[] = fileArray.filter(line => line.includes('import') === true)
-                        filteredImportsArray.forEach(lineImports => {
-                            const importLibrary = getImportsLibrary(lineImports)
-                            if (importLibrary !== null) {
-                                ArrayImportsFiles.push(importLibrary)
-                            }
-                        })
-                    })
+                    const arrayImports: Array<string> = getFileImports(rootDirectory, filesDirectory)
+                    const libraryResult = libraryEquivalence(library, arrayImports, libraryObject)
 
-                    library.forEach((lib) => {
-                        ArrayImportsFiles.forEach(importFile => {
-                            if (lib === importFile) {
-                                const item: ILibrary | undefined = libraryObject.find(res => res.label === lib)
-                                if (item !== null) {
-                                    item!.count += 1
-                                } else {
-                                    libraryObject.push({
-                                        label: lib,
-                                        count: 1
-                                    })
-                                } 
-                            }
-                        })
-                    })
+                    return libraryResult
                 } catch {
                     return null
                 }

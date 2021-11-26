@@ -1,4 +1,4 @@
 export interface ILibrary {
     label: string
-    count: number
+    r: number
 }

@@ -1,9 +1,9 @@
 import { readdirSync } from 'fs';
 
 const TRIGGERS: Record<string, boolean> = {
-    'package.json': true,
-    'package-lock.json': true,
-    'tsconfig.json': true,
+    '__init__': true,
+    'pipenv': true,
+    'Pipfile': true,
 };
 
 const triggerPythonProject = (rootPath: string): Trigger | null => {

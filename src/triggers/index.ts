@@ -1,10 +1,12 @@
 import config from 'config';
 import triggerJSProject from './jsts';
+import triggerPythonProject from './python';
 
 const { rootPath } = config;
 
 const TRIGGERS = [
   triggerJSProject,
+  triggerPythonProject,
 ];
 
 const runTriggers = () =>

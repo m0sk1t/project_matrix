@@ -1,9 +1,6 @@
-import { config } from '../config';
 import triggerCSharpProject from './CSharp';
 import triggerJSProject from './jsts';
 import triggerPythonProject from './python';
-
-const { rootPath } = config;
 
 const TRIGGERS = [
   triggerJSProject,
@@ -11,7 +8,7 @@ const TRIGGERS = [
   triggerCSharpProject,
 ];
 
-const runTriggers = () =>
+const runTriggers = (rootPath: string) =>
   TRIGGERS.map((trigger) => trigger(rootPath)).filter(Boolean).pop();
 
 export default runTriggers;

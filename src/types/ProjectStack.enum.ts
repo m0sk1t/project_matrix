@@ -5,3 +5,5 @@ enum ProjectStack {
   Ruby = 'ruby',
   Java = 'java',
 }
+
+export default ProjectStack;

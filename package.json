@@ -4,7 +4,7 @@
   "description": "Makes project matrix (map) for your repo",
   "main": "./src/index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "ts-node src/index.ts",
     "draw": "ts-node src/drawer/index.ts",
     "test": "mocha"
   },

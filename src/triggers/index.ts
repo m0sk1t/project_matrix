@@ -1,4 +1,4 @@
-import { config } from 'config';
+import { config } from '../config';
 import triggerCSharpProject from './CSharp';
 import triggerJSProject from './jsts';
 import triggerPythonProject from './python';

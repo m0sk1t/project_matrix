@@ -1,42 +1,51 @@
-import { readFileSync } from "fs"
-import { ILibrary } from "../interface/jstx.interface"
+import { join as joinPath } from "path";
+import { readFileSync } from "fs";
 
-export const getImportsLibrary = (line: string): string => {
-    return line.substring(line.indexOf('from '), line.length + 1)
-        .replace('from ', '').replace(/["']+/g, '')
+import { Deps } from "..";
+
+export const getImportsLibrary = (line: string): string =>
+  line.substring(line.indexOf('from '), line.length + 1)
+    .replace('from ', '').replace(/["']+/g, '');
+
+export const getRequireLibrary = (line: string): string =>
+  /require\(\'(?<lib>[\w\-]+)'\)/.exec(line)?.groups?.lib as string;
+
+export const getFileImports = (rootPath: any, filesDirectory: string[]) => {
+  const arrayImports: string[] = [];
+
+  filesDirectory.map(fileDirectory => {
+    const fileArray = readFileSync(joinPath(rootPath, fileDirectory)).toString().split("\n");
+    const filteredImportsArray: string[] = fileArray.filter(line => line.startsWith('import') || line.includes('require(\''));
+
+    filteredImportsArray.map(lineImports => {
+      const importLibrary = getImportsLibrary(lineImports);
+      const requireLibrary = getRequireLibrary(lineImports);
+
+      if (importLibrary) {
+        arrayImports.push(importLibrary);
+      }
+      
+      if (requireLibrary) {
+        arrayImports.push(requireLibrary);
+      }
+    })
+  })
+
+  return arrayImports;
 }
 
-export const getFileImports = (rootDirectory: any, filesDirectory: Array<string>) => {
-    const arrayImports: Array<string> = []
+export const libraryEquivalence = (library: Deps, arrayImports: string[]): Record<string, number> => {
+  const libWeights: Record<string, number> = {};
 
-    filesDirectory.map(fileDirectory => {
-        const fileArray = readFileSync(rootDirectory.join(fileDirectory)).toString().split("\n")
-        const filteredImportsArray: string[] = fileArray.filter(line => line.includes('import') === true)
-        filteredImportsArray.map(lineImports => {
-            const importLibrary = getImportsLibrary(lineImports)
-            if (importLibrary !== null) {
-                arrayImports.push(importLibrary)
-            }
-        })
-    })
+  arrayImports.map(libImport => {
+    if (library[libImport]) {
+      if (libWeights[libImport]) {
+        libWeights[libImport] += 1;
+      } else {
+        libWeights[libImport] = 1;
+      }
+    }
+  });
 
-    return arrayImports
-}
-
-export const libraryEquivalence = (library: Array<string>, arrayImports: Array<string>, libraryObject: Array<ILibrary>) => {
-    library.map((lib) => {
-        arrayImports.map(importFile => {
-            if (lib === importFile) {
-                const item: ILibrary | undefined = libraryObject.find(res => res.label === lib)
-                if (item !== null) {
-                    item!.r += 1
-                } else {
-                    libraryObject.push({
-                        label: lib,
-                        r: 1
-                    })
-                }
-            }
-        })
-    })
+  return libWeights;
 }

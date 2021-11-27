@@ -1,10 +1,10 @@
 import { readdirSync } from 'fs';
+import ProjectStack from '../types/ProjectStack.enum';
 
 const TRIGGERS: Record<string, boolean> = {
     'App.config': true,
 
 };
-
 
 const triggerCSharpProject = (rootPath: string): ProjectStack | null => {
     for (const fileName of readdirSync(rootPath)) {

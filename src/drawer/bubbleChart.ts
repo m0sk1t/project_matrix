@@ -51,7 +51,7 @@ const prepareData = (data: any[]) => {
   return preparedData;
 }
 
-const renderImage = async (data: any) => {
+const renderImage = async (data: any, fileName: string) => {
   const configuration = {
     type: 'bubble',
     data: {
@@ -71,7 +71,7 @@ const renderImage = async (data: any) => {
     },
   };
   const image = await chartJSNodeCanvas.renderToBuffer(configuration);
-  fs.writeFileSync('./output.png', image);
+  fs.writeFileSync(`./static/${fileName}.png`, image);
 };
 
 export default renderImage;

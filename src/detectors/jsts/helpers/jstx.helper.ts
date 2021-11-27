@@ -4,10 +4,10 @@ import { readFileSync } from "fs";
 import { Deps } from "..";
 
 export const getImportsLibrary = (line: string): string =>
-  /from '(?<lib>[\w\-]+)'/.exec(line)?.groups?.lib as string;
+  /from ['"](?<lib>[\w\-]+)['"]/.exec(line)?.groups?.lib as string;
 
 export const getRequireLibrary = (line: string): string =>
-  /require\(\'(?<lib>[\w\-]+)'\)/.exec(line)?.groups?.lib as string;
+  /require\(['"](?<lib>[\w\-]+)['"]\)/.exec(line)?.groups?.lib as string;
 
 export const getFileImports = (rootPath: any, filesDirectory: string[]) => {
   const arrayImports: string[] = [];

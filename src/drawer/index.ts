@@ -31,8 +31,8 @@ const generateRandomData = () => {
   return result;
 };
 
-const renderImage = async (chart?: string, data?: any) => {
-  await CHARTS[chart || 'bubbleChart'](data || generateRandomData());
+const renderImage = async (repoName: string, chart?: string, data?: any) => {
+  await CHARTS[chart || 'bubbleChart'](data || generateRandomData(), repoName);
 };
 
 export default renderImage;

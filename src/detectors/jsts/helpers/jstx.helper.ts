@@ -4,8 +4,7 @@ import { readFileSync } from "fs";
 import { Deps } from "..";
 
 export const getImportsLibrary = (line: string): string =>
-  line.substring(line.indexOf('from '), line.length + 1)
-    .replace('from ', '').replace(/["']+/g, '');
+  /from '(?<lib>[\w\-]+)'/.exec(line)?.groups?.lib as string;
 
 export const getRequireLibrary = (line: string): string =>
   /require\(\'(?<lib>[\w\-]+)'\)/.exec(line)?.groups?.lib as string;

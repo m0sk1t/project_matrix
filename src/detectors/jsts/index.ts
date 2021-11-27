@@ -25,6 +25,10 @@ const JSTSDetector = (rootPath: string): Promise<ILibrary[]> => {
           const libraryObject: ILibrary[] = [];
   
           const arrayImports: string[] = getFileImports(srcPath, filesDirectory);
+          const missingImports = Array.from(new Set(arrayImports));
+          missingImports.map((k) => {
+            library[k] = 'true';
+          });
           const libraryResult = libraryEquivalence(library, arrayImports);
   
           libraryObject.push(...Object.keys(libraryResult).map((label) => ({
